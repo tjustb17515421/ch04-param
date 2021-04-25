@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mou.dao.StudentDao">
+    <!--
+    parameterType:  dao接口中方法参数的数据类型
+        parameterType它的值是Java的数据类型全限定名称或者是mybatis定义的别名（一般都是类型的首字母小写）
+
+        例：parameterType=“java.lang.Integer”
+            parameterType=“integer”（或者int）
+
+      注意：parameterType不是强制的，再mybatis通过反射机制能够发现接口参数的数据类型，所以可以没有
+            一般我们也不写
+    -->
+    <select id="selectStudentById" parameterType="java.lang.Integer" resultType="com.mou.domain.Student">
+        select id,name,email,age from Student where id=#{id}
+    </select>
+
+
+    <!--多个参数，使用@param命名-->
+    <select id="selectStudentMuliParam" resultType="com.mou.domain.Student">
+        select id,name,email,age from Student where name=#{myname} or age=#{myage}
+    </select>
+
+    <!--多个参数，使用java对象的属性值，作为参数的实际值
+        使用对象语法： #{属性名,javaType=类型名称,jdbcType=数据库数据类型}  这种方式很少用
+                    #{pararName,javaType=java.lang.String,jdbcType=VARCHAR}
+
+       ***我们一般使用简化方式 #{pararName} 后面两个值通过反射可以获取，所以不用提供
+    -->
+    <select id="selectMuliObject" resultType="com.mou.domain.Student">
+        select id,name,email,age from Student where name=#{paramName} or age=#{paramAge}
+    </select>
+
+
+    <select id="selectMuliStudent" resultType="com.mou.domain.Student">
+        select id,name,email,age from Student where name=#{name} or age=#{age}
+    </select>
+
+
+    <!--把map集合作为参数传入
+            语法：#{key}
+    -->
+    <select id="selectByMap" resultType="com.mou.domain.Student">
+        select id,name,email,age from Student where name=#{myname} or age=#{myage}
+    </select>
+</mapper>
